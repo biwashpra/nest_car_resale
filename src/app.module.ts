@@ -4,16 +4,20 @@ import { AppService } from './app.service';
 import { UsersModule } from './users/users.module';
 import { ReportsModule } from './reports/reports.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { User } from './users/users.entity';
-import { Reports } from './reports/reports.entity';
+import { User } from './users/user.entity';
+import { Report } from './reports/report.entity';
 
 @Module({
   imports: [
     TypeOrmModule.forRoot({
       type: 'sqlite',
       database: 'db.sqlite',
-      entities: [User, Reports],
+      entities: [User, Report],
       synchronize: true,
+      logging: ['schema', 'error'],
+      extra: {
+        busyTimeout: 30000,
+      },
     }),
     UsersModule,
     ReportsModule,
